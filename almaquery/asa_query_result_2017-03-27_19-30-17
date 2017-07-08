@@ -1,0 +1,674 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VOTABLE xmlns="http://www.ivoa.net/xml/VOTable/v1.3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.3">
+  <RESOURCE type="results">
+    <INFO name="QUERY_STATUS" value="OK" />
+    <INFO name="QUERY" value="SELECT&#xA; distinct asa_ous.asa_project_code AS &quot;Project code&quot;,&#xA;asa_science.source_name AS &quot;Source name&quot;,&#xA;asa_science.ra AS &quot;RA&quot;,&#xA;asa_science.dec AS &quot;Dec&quot;,&#xA;asa_science.gal_longitude AS &quot;Galactic longitude&quot;,&#xA;asa_science.gal_latitude AS &quot;Galactic latitude&quot;,&#xA;asa_science.band_list AS &quot;Band&quot;,&#xA;to_number(asa_science.spatial_resolution) AS &quot;Spatial resolution&quot;,&#xA;asa_science.frequency_resolution AS &quot;Frequency resolution&quot;,&#xA;concat(concat(case when asa_science.ant_main_num &gt; 0 then '12m' else '' end, case when asa_science.ant_aca_num &gt; 0 then '7m' else '' end), case when asa_science.ant_tp_num &gt; 0 then 'TP' else '' end) as &quot;Array&quot;,&#xA;(case when asa_science.is_mosaic = 'Y' then 'mosaic' else '' end) as &quot;Mosaic&quot;,&#xA;asa_science.int_time AS &quot;Integration&quot;,&#xA;to_char(dp_delivery_status.release_date, 'YYYY-MM-DD') AS &quot;Release date&quot;,&#xA;asa_science.frequency_support AS &quot;Frequency support&quot;,&#xA;asa_science.velocity_resolution AS &quot;Velocity resolution&quot;,&#xA;asa_science.pol_products AS &quot;Pol products&quot;,&#xA;to_char(asa_science.start_date, 'YYYY-MM-DD HH24:MI:SS') AS &quot;Observation date&quot;,&#xA;asa_project.pi_name AS &quot;PI name&quot;,&#xA;asa_science.schedblock_name as &quot;SB name&quot;,&#xA;asa_project.coi_name AS &quot;Proposal authors&quot;,&#xA;min(asa_energy.sensitivity_10kms) AS &quot;Line sensitivity (10 km/s)&quot;,&#xA;asa_science.cont_sensitivity_bandwidth AS &quot;Continuum sensitivity&quot;,&#xA;asa_science.pwv AS &quot;PWV&quot;,&#xA;asa_ous.group_ous_uid as &quot;Group ous id&quot;,&#xA;asa_ous.member_ous_uid as &quot;Member ous id&quot;,&#xA;asa_science.asdm_uid AS &quot;Asdm uid&quot;,&#xA;asa_project.title AS &quot;Project title&quot;,&#xA;asa_project.type AS &quot;Project type&quot;,&#xA;asa_science.scan_intent AS &quot;Scan intent&quot;,&#xA;asa_science.fov AS &quot;Field of view&quot;,&#xA;asa_science.spatial_scale_max AS &quot;Largest angular scale&quot;,&#xA;dp_delivery_status.qa2_passed AS &quot;QA2 Status&quot;,&#xA;(select count(distinct asab.bibcode) from asa_project_bibliography asab where project_code = asa_ous.asa_project_code) AS &quot;Pub&quot;,&#xA;asa_project.science_keyword AS &quot;Science keyword&quot;,&#xA;asa_project.scientific_category AS &quot;Scientific category&quot;,&#xA;asa_ous.asa_project_code&#xA; FROM ALMA.asa_science &#xA;  inner join ALMA.aqua_execblock on asa_science.asdm_uid = aqua_execblock.execblockuid&#xA;  inner join ALMA.asa_ous on asa_science.asa_ous_id = asa_ous.asa_ous_id&#xA;  inner join ALMA.asa_project on asa_ous.asa_project_code = asa_project.code&#xA;  left outer join ALMA.asa_project_bibliography on asa_ous.asa_project_code = asa_project_bibliography.project_code&#xA;  left outer join ALMA.dp_delivery_asdm_ous on asa_science.asdm_uid = dp_delivery_asdm_ous.asdm_uid&#xA;  left outer join ALMA.dp_delivery_status on dp_delivery_asdm_ous.deliverable_name = dp_delivery_status.delivery_id&#xA;  inner join ALMA.asa_energy on asa_science.dataset_id = asa_energy.asa_dataset_id&#xA;WHERE (1=1)&#xA; AND asa_science.product_type = 'MOUS'&#xA; AND REGEXP_COUNT(aqua_execblock.qa0status, '(Semi)?Pass', 1, 'i') &gt; 0&#xA; AND (dp_delivery_status.qa2_passed is null or dp_delivery_status.qa2_passed = 'Y')&#xA; AND lower(asa_ous.asa_project_code) not like '%.csv'&#xA; AND  (dp_delivery_status.release_date &lt; to_date('2017-03-27', 'YYYY-mm-dd'))&#xA; AND  (lower(ASA_SCIENCE.band_list) LIKE '%7%')&#xA; AND  (lower(ASA_SCIENCE.source_name) LIKE '3c273')&#xA;GROUP BY asa_ous.asa_project_code, asa_science.source_name, asa_science.ra, asa_science.dec, asa_science.gal_longitude, asa_science.gal_latitude, asa_science.band_list, asa_science.spatial_resolution, asa_science.frequency_resolution, asa_science.ant_main_num, asa_science.ant_aca_num, asa_science.ant_tp_num, asa_science.is_mosaic, asa_science.int_time, dp_delivery_status.release_date, asa_science.frequency_support, asa_science.velocity_resolution, asa_science.pol_products, asa_science.start_date, asa_project.pi_name, asa_science.schedblock_name, asa_project.coi_name, asa_science.cont_sensitivity_bandwidth, asa_science.pwv, asa_ous.group_ous_uid, asa_ous.member_ous_uid, asa_science.asdm_uid, asa_project.title, asa_project.type, asa_science.scan_intent, asa_science.fov, asa_science.spatial_scale_max, dp_delivery_status.qa2_passed, asa_project.science_keyword, asa_project.scientific_category, asa_science.footprint&#xA; ORDER BY &quot;Release date&quot; asc" />
+    <TABLE>
+      <FIELD name="Project code" datatype="char" ID="32846" xtype="adql:VARCHAR" arraysize="0*">
+        <DESCRIPTION>OUS Project Code</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Source name" datatype="char" ID="1206" ucd="meta.id;pos" utype="Observation.Target.name" xtype="adql:VARCHAR" arraysize="256*">
+        <DESCRIPTION>Name of the source as registered in the ASDM. Partial matches through wildcards (?, *), and boolean OR expressions ("|"), can be used.</DESCRIPTION>
+      </FIELD>
+      <FIELD name="RA" datatype="double" ID="1186" ucd="pos.eq.ra;meta.main" unit="deg" utype="Characterisation.SpatialAxis.Coverage.Location.coord.Position2D.Value2.C1" xtype="adql:DOUBLE">
+        <DESCRIPTION>Right Ascension of the field pointing.</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Dec" datatype="double" ID="1187" ucd="pos.eq.dec;meta.main" unit="deg" utype="Characterisation.SpatialAxis.Coverage.Location.coord.Position2D.Value2.C2" xtype="adql:DOUBLE">
+        <DESCRIPTION>Declination of the field pointing.</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Galactic longitude" datatype="double" ID="1197" ucd="pos.galactic.lon" unit="deg" xtype="adql:DOUBLE">
+        <DESCRIPTION>Galactic longitude of the observation for RA/Dec. Estimated using PyEphem and RA/Dec.</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Galactic latitude" datatype="double" ID="1198" ucd="pos.galactic.lat" unit="deg" xtype="adql:DOUBLE">
+        <DESCRIPTION>Galactic latitude of the observation for RA/Dec. Estimated using PyEphem and RA/Dec.</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Band" datatype="char" ID="32817" xtype="adql:VARCHAR" arraysize="0*">
+        <DESCRIPTION>Space delimited list of bands</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Spatial resolution" datatype="double" unit="" xtype="adql:DOUBLE" />
+      <FIELD name="Frequency resolution" datatype="double" ID="1217" ucd="spect.resolution" unit="kHz" utype="Char.SpectralAxis.Resolution.refval" xtype="adql:DOUBLE">
+        <DESCRIPTION>Estimated frequency resolution from all the spectral windows, using median values of channel widths.</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Array" datatype="char" unit="" xtype="adql:VARCHAR" arraysize="*" />
+      <FIELD name="Mosaic" />
+      <FIELD name="Integration" datatype="double" ID="1213" ucd="time.duration;obs.exposure" unit="s" utype="Char.TimeAxis.Coverage.Support.Extent" xtype="adql:DOUBLE">
+        <DESCRIPTION>Aggregated integration time for the field in the ASDM.</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Release date" datatype="char" unit="" xtype="adql:VARCHAR" arraysize="*" />
+      <FIELD name="Frequency support" datatype="char" ID="1216" ucd="em.freq;obs;meta.main" unit="GHz" utype="Char.SpectralAxis.Coverage.Location.support" xtype="adql:VARCHAR" arraysize="2700*">
+        <DESCRIPTION>All frequency ranges used by the field</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Velocity resolution" datatype="double" ID="1225" ucd="phys.veloc;spect.resolution" unit="m/s" utype="Char.VelocityAxis.Resolution.refval" xtype="adql:DOUBLE">
+        <DESCRIPTION>Estimated velocity resolution from all the spectral windows, from frequency resolution.</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Pol products" datatype="char" ID="1238" ucd="phys.polarization;meta.code" xtype="adql:VARCHAR" arraysize="64*">
+        <DESCRIPTION>Polarisation products provided.</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Observation date" datatype="char" unit="" xtype="adql:VARCHAR" arraysize="*" />
+      <FIELD name="PI name" datatype="char" ID="1260" ucd="meta.id.PI" xtype="adql:VARCHAR" arraysize="256*">
+        <DESCRIPTION>case-insensitive partial match over the full PI name. Wildcards can be used</DESCRIPTION>
+      </FIELD>
+      <FIELD name="SB name" datatype="char" ID="1252" ucd="meta.code;obs;instr.setup" xtype="adql:VARCHAR" arraysize="128*">
+        <DESCRIPTION>Name of the Scheduling Block used as a template for executing the ASDM containing this Field.</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Proposal authors" datatype="char" ID="1262" ucd="meta.id.CoI" xtype="adql:VARCHAR" arraysize="512*">
+        <DESCRIPTION>Full name of CoIs .</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Line sensitivity (10 km/s)" datatype="double" unit="" xtype="adql:DOUBLE" />
+      <FIELD name="Continuum sensitivity" datatype="double" ID="32852" unit="mJy/beam" xtype="adql:DOUBLE">
+        <DESCRIPTION>Estimated noise in the aggregated continuum bandwidth. Note this is an indication only, it does not include the effects of flagging or dynamic range limitations.</DESCRIPTION>
+      </FIELD>
+      <FIELD name="PWV" datatype="float" ID="1240" ucd="obs.atmos.extinction" unit="mm" xtype="adql:FLOAT">
+        <DESCRIPTION>Estimated precipitable water vapour from the XML_CALWVR_ENTITIES table.</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Group ous id" datatype="char" ID="32844" xtype="adql:VARCHAR" arraysize="0*">
+        <DESCRIPTION>Group OUS ID</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Member ous id" datatype="char" ID="32845" xtype="adql:VARCHAR" arraysize="0*">
+        <DESCRIPTION>Member OUS ID</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Asdm uid" datatype="char" ID="1182" ucd="meta.id" xtype="adql:VARCHAR" arraysize="32*">
+        <DESCRIPTION>UID of the ASDM containing this Field.</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Project title" datatype="char" ID="1263" ucd="meta.title;obs.proposal" xtype="adql:VARCHAR" arraysize="256*">
+        <DESCRIPTION>Case-insensitive search over the project title</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Project type" datatype="char" ID="1264" ucd="meta.code.class;obs.proposal" xtype="adql:VARCHAR" arraysize="16*">
+        <DESCRIPTION>Project type.</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Scan intent" datatype="char" ID="1254" ucd="meta.code.class;obs" xtype="adql:VARCHAR" arraysize="256*">
+        <DESCRIPTION>Scan intent list for the observed field.</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Field of view" datatype="double" ID="1204" ucd="phys.angSize;instr.fov" unit="arcsec" utype="Characterisation.SpatialAxis.Coverage.Bounds" xtype="adql:DOUBLE">
+        <DESCRIPTION>Field of view (arcsec). Estimated from the frequency and antennas</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Largest angular scale" datatype="double" ID="1202" ucd="pos.angResolution;stat.max" unit="arcsec" utype="Characterisation.SpatialAxis.Coverage.Bounds.limits.Interval.HiLim" xtype="adql:DOUBLE">
+        <DESCRIPTION>Due to the fact that radio antennas can not be placed infinitely close, measurements do have a smallest separation which translates into a maximal angular distance beyond which features can not be resolved reliably any more. Adding observations with the ALMA Total Power array can add those missing largest scales.</DESCRIPTION>
+      </FIELD>
+      <FIELD name="QA2 Status" datatype="char" ID="1289" ucd="meta.flag" xtype="adql:CHAR" arraysize="1*">
+        <DESCRIPTION>Quality Assessment 2 status: does the Member / Group OUS fulfil the PI's requirements?</DESCRIPTION>
+      </FIELD>
+      <FIELD name="Pub" />
+      <FIELD name="Science keyword" datatype="char" ID="32831" xtype="adql:VARCHAR" arraysize="200*" />
+      <FIELD name="Scientific category" datatype="char" ID="32834" xtype="adql:VARCHAR" arraysize="200*" />
+      <FIELD name="ASA_PROJECT_CODE" datatype="char" xtype="adql:VARCHAR" arraysize="0*">
+        <DESCRIPTION>OUS Project Code</DESCRIPTION>
+      </FIELD>
+      <DATA>
+        <TABLEDATA>
+          <TR>
+            <TD>2011.0.00754.S</TD>
+            <TD>3C273</TD>
+            <TD>187.2779155</TD>
+            <TD>2.0523883999999994</TD>
+            <TD>289.9509272383897</TD>
+            <TD>64.35992819301111</TD>
+            <TD>7</TD>
+            <TD>0.43696831676307096</TD>
+            <TD>31250.0</TD>
+            <TD>12m</TD>
+            <TD />
+            <TD>10.08</TD>
+            <TD>2013-10-30</TD>
+            <TD>[341.99..343.99GHz,31250.00kHz, XX YY] U [343.93..345.93GHz,31250.00kHz, XX YY] U [353.99..355.99GHz,31250.00kHz, XX YY] U [355.99..357.99GHz,31250.00kHz, XX YY]</TD>
+            <TD>26769.98503772002</TD>
+            <TD>XX YY</TD>
+            <TD>2012-06-03 00:31:33</TD>
+            <TD>Doi, Akihiro</TD>
+            <TD>Sombrero band-7b</TD>
+            <TD>Akiyama, Kazunori; Sawada-Satoh, Satoko; Ozaki, Shinobu; Kawaguchi, Toshihiro; Kohno, Kotaro; Hada, Kazuhiro; Terashima, Yuichi; Nakanishi, Kouichiro;</TD>
+            <TD>24.091770871737534</TD>
+            <TD>0.9900411207811936</TD>
+            <TD>0.6676518</TD>
+            <TD />
+            <TD>uid://A002/X36d874/X8a</TD>
+            <TD>uid://A002/X41d520/X36d</TD>
+            <TD>The Sombrero galaxy with a very massive black hole at extreme sub-Eddington rate</TD>
+            <TD>S</TD>
+            <TD>BANDPASS PHASE WVR</TD>
+            <TD>18.000276432816648</TD>
+            <TD>1.8843298393305934</TD>
+            <TD>Y</TD>
+            <TD>1</TD>
+            <TD>Black holes, Active Galactic Nuclei (AGN)/Quasars (QSO)</TD>
+            <TD>Stars and stellar evolution</TD>
+            <TD>2011.0.00754.S</TD>
+          </TR>
+          <TR>
+            <TD>2011.0.00754.S</TD>
+            <TD>3C273</TD>
+            <TD>187.2779155</TD>
+            <TD>2.0523883999999994</TD>
+            <TD>289.9509272383897</TD>
+            <TD>64.35992819301111</TD>
+            <TD>7</TD>
+            <TD>0.52776189308925925</TD>
+            <TD>31250.0</TD>
+            <TD>12m</TD>
+            <TD />
+            <TD>10.08</TD>
+            <TD>2013-10-30</TD>
+            <TD>[277.99..279.99GHz,31250.00kHz, XX YY] U [279.93..281.93GHz,31250.00kHz, XX YY] U [289.99..291.99GHz,31250.00kHz, XX YY] U [291.99..293.99GHz,31250.00kHz, XX YY]</TD>
+            <TD>32761.238436565523</TD>
+            <TD>XX YY</TD>
+            <TD>2012-06-03 00:03:29</TD>
+            <TD>Doi, Akihiro</TD>
+            <TD>Sombrero band-7a</TD>
+            <TD>Akiyama, Kazunori; Sawada-Satoh, Satoko; Ozaki, Shinobu; Kawaguchi, Toshihiro; Kohno, Kotaro; Hada, Kazuhiro; Terashima, Yuichi; Nakanishi, Kouichiro;</TD>
+            <TD>21.012477324320102</TD>
+            <TD>0.7373055781942635</TD>
+            <TD>0.73921</TD>
+            <TD />
+            <TD>uid://A002/X36d874/X88</TD>
+            <TD>uid://A002/X41d520/X2cd</TD>
+            <TD>The Sombrero galaxy with a very massive black hole at extreme sub-Eddington rate</TD>
+            <TD>S</TD>
+            <TD>BANDPASS PHASE WVR</TD>
+            <TD>22.02838602298907</TD>
+            <TD>2.2758571847416342</TD>
+            <TD>Y</TD>
+            <TD>1</TD>
+            <TD>Black holes, Active Galactic Nuclei (AGN)/Quasars (QSO)</TD>
+            <TD>Stars and stellar evolution</TD>
+            <TD>2011.0.00754.S</TD>
+          </TR>
+          <TR>
+            <TD>2011.0.00820.S</TD>
+            <TD>3c273</TD>
+            <TD>187.2779155</TD>
+            <TD>2.0523883999999994</TD>
+            <TD>289.9509272383897</TD>
+            <TD>64.35992819301111</TD>
+            <TD>7</TD>
+            <TD>0.70952541040105321</TD>
+            <TD>976.5625</TD>
+            <TD>12m</TD>
+            <TD />
+            <TD>90.72</TD>
+            <TD>2013-12-28</TD>
+            <TD>[278.27..280.15GHz,976.56kHz, XX YY] U [279.90..281.77GHz,976.56kHz, XX YY] U [290.27..292.15GHz,976.56kHz, XX YY] U [291.90..293.77GHz,976.56kHz, XX YY]</TD>
+            <TD>1023.5753818542527</TD>
+            <TD>XX YY</TD>
+            <TD>2012-11-20 11:32:12</TD>
+            <TD>Costagliola, Francesco</TD>
+            <TD>ngc4418 B7 Part 1 Setup 2</TD>
+            <TD>Garcia-Burillo, Santiago; Muehle, Stefanie; Aalto, Susanne; Muller, Sebastien; Martin, Sergio; Spaans, Marco; Evans, Aaron; Sakamoto, Kazushi; van der Werf, Paul;</TD>
+            <TD>5.325479184571878</TD>
+            <TD>0.19134017027659767</TD>
+            <TD>0.4760065</TD>
+            <TD />
+            <TD>uid://A002/X314ea1/X1d6</TD>
+            <TD>uid://A002/X5552a3/Xdfb</TD>
+            <TD>A 170 GHz-wide Complete Spectral Scan of an IR-pumped, Luminous Infrared Galaxy</TD>
+            <TD>S</TD>
+            <TD>BANDPASS PHASE WVR</TD>
+            <TD>22.026202885391314</TD>
+            <TD>3.6202907759856373</TD>
+            <TD>Y</TD>
+            <TD>1</TD>
+            <TD>Luminous and Ultra-Luminous Infra-Red Galaxies (LIRG &amp; ULIRG), Galaxy chemistry</TD>
+            <TD>Galaxy evolution</TD>
+            <TD>2011.0.00820.S</TD>
+          </TR>
+          <TR>
+            <TD>2011.0.00820.S</TD>
+            <TD>3c273</TD>
+            <TD>187.2779155</TD>
+            <TD>2.0523883999999994</TD>
+            <TD>289.9509272383897</TD>
+            <TD>64.35992819301111</TD>
+            <TD>7</TD>
+            <TD>0.76163789651156211</TD>
+            <TD>976.5625</TD>
+            <TD>12m</TD>
+            <TD />
+            <TD>90.72</TD>
+            <TD>2013-12-28</TD>
+            <TD>[275.08..276.96GHz,976.56kHz, XX YY] U [276.65..278.52GHz,976.56kHz, XX YY] U [287.09..288.96GHz,976.56kHz, XX YY] U [288.65..290.52GHz,976.56kHz, XX YY]</TD>
+            <TD>1035.2260625002834</TD>
+            <TD>XX YY</TD>
+            <TD>2012-11-20 11:03:47</TD>
+            <TD>Costagliola, Francesco</TD>
+            <TD>ngc4418 B7 Part 1 Setup 1</TD>
+            <TD>Garcia-Burillo, Santiago; Muehle, Stefanie; Aalto, Susanne; Muller, Sebastien; Martin, Sergio; Spaans, Marco; Evans, Aaron; Sakamoto, Kazushi; van der Werf, Paul;</TD>
+            <TD>5.320912394129202</TD>
+            <TD>0.18963868522524055</TD>
+            <TD>0.49609756</TD>
+            <TD />
+            <TD>uid://A002/X314ea1/X1d4</TD>
+            <TD>uid://A002/X5552a3/Xd88</TD>
+            <TD>A 170 GHz-wide Complete Spectral Scan of an IR-pumped, Luminous Infrared Galaxy</TD>
+            <TD>S</TD>
+            <TD>BANDPASS PHASE WVR</TD>
+            <TD>22.276912564631058</TD>
+            <TD>3.886190136338236</TD>
+            <TD>Y</TD>
+            <TD>1</TD>
+            <TD>Luminous and Ultra-Luminous Infra-Red Galaxies (LIRG &amp; ULIRG), Galaxy chemistry</TD>
+            <TD>Galaxy evolution</TD>
+            <TD>2011.0.00820.S</TD>
+          </TR>
+          <TR>
+            <TD>2013.1.00180.S</TD>
+            <TD>3c273</TD>
+            <TD>187.27791666666667</TD>
+            <TD>2.052388333333333</TD>
+            <TD>289.95092990916373</TD>
+            <TD>64.35992836092764</TD>
+            <TD>7</TD>
+            <TD>0.44714272330549043</TD>
+            <TD>7812.5</TD>
+            <TD>12m</TD>
+            <TD />
+            <TD>151.2</TD>
+            <TD>2016-08-09</TD>
+            <TD>[295.22..297.22GHz,31250.00kHz, XX YY] U [297.17..299.17GHz,31250.00kHz, XX YY] U [307.30..309.18GHz,7812.50kHz, XX YY] U [309.05..310.92GHz,7812.50kHz, XX YY]</TD>
+            <TD>7587.6432945134575</TD>
+            <TD>XX YY</TD>
+            <TD>2015-05-14 01:31:28</TD>
+            <TD>Dasyra, Kalliopi</TD>
+            <TD>4C12.50_a_07_TE</TD>
+            <TD>Papadopoulos, Padelis; Onken, Christopher; Scharwaechter, Julia; Wagner, Alexander; Combes, Francoise; Salome, Philippe;</TD>
+            <TD>2.94853071766372</TD>
+            <TD>0.10953589131296348</TD>
+            <TD>0.86053175</TD>
+            <TD>uid://A001/X13b/Xde</TD>
+            <TD>uid://A001/X13b/Xdf</TD>
+            <TD>uid://A002/Xa068cb/X106e</TD>
+            <TD>Does the CO excitation in an outflow differ from that in the ambient medium? Insights from 4C12.50</TD>
+            <TD>S</TD>
+            <TD>AMPLI FLUX WVR</TD>
+            <TD>20.787227782948428</TD>
+            <TD>2.225742773394828</TD>
+            <TD>Y</TD>
+            <TD>0</TD>
+            <TD>Active Galactic Nuclei (AGN)/Quasars (QSO), Outflows, jets, feedback</TD>
+            <TD>Active galaxies</TD>
+            <TD>2013.1.00180.S</TD>
+          </TR>
+          <TR>
+            <TD>2013.1.00493.S</TD>
+            <TD>3c273</TD>
+            <TD>187.27791666666667</TD>
+            <TD>2.052388333333333</TD>
+            <TD>289.95092990916373</TD>
+            <TD>64.35992836092764</TD>
+            <TD>7</TD>
+            <TD>0.14981661763382784</TD>
+            <TD>976.5625</TD>
+            <TD>12m</TD>
+            <TD />
+            <TD>151.2</TD>
+            <TD>2016-08-13</TD>
+            <TD>[332.32..334.32GHz,31250.00kHz, XX YY] U [334.12..336.12GHz,31250.00kHz, XX YY] U [344.36..346.24GHz,976.56kHz, XX YY] U [346.11..348.11GHz,31250.00kHz, XX YY]</TD>
+            <TD>848.085029910512</TD>
+            <TD>XX YY</TD>
+            <TD>2015-06-27 23:17:26</TD>
+            <TD>Bureau, Martin</TD>
+            <TD>NGC4826_a_07_TE</TD>
+            <TD>Sarzi, Marc; Cappellari, Michele; Blitz, Leo; Davis, Timothy;</TD>
+            <TD>3.2837225878191454</TD>
+            <TD>0.12936517737406092</TD>
+            <TD>1.0114747</TD>
+            <TD>uid://A001/X12a/X218</TD>
+            <TD>uid://A001/X12a/X219</TD>
+            <TD>uid://A002/Xa45c3f/X2eba</TD>
+            <TD>Weighing Supermassive Black Holes with ALMA</TD>
+            <TD>S</TD>
+            <TD>AMPLI FLUX WVR</TD>
+            <TD>18.51789630419059</TD>
+            <TD>0.7697656631288203</TD>
+            <TD>Y</TD>
+            <TD>0</TD>
+            <TD>Surveys of galaxies, Galactic centres/nuclei</TD>
+            <TD>Galaxy evolution</TD>
+            <TD>2013.1.00493.S</TD>
+          </TR>
+          <TR>
+            <TD>2013.1.00493.S</TD>
+            <TD>3c273</TD>
+            <TD>187.27791666666667</TD>
+            <TD>2.052388333333333</TD>
+            <TD>289.95092990916373</TD>
+            <TD>64.35992836092764</TD>
+            <TD>7</TD>
+            <TD>0.15861473120738298</TD>
+            <TD>976.5625</TD>
+            <TD>12m</TD>
+            <TD />
+            <TD>302.4</TD>
+            <TD>2016-08-14</TD>
+            <TD>[331.53..333.53GHz,31250.00kHz, XX YY] U [333.33..335.33GHz,31250.00kHz, XX YY] U [343.54..345.42GHz,976.56kHz, XX YY] U [345.28..347.28GHz,31250.00kHz, XX YY]</TD>
+            <TD>850.1113552709191</TD>
+            <TD>XX YY</TD>
+            <TD>2015-06-26 22:56:00</TD>
+            <TD>Bureau, Martin</TD>
+            <TD>NGC4429_a_07_TE</TD>
+            <TD>Sarzi, Marc; Cappellari, Michele; Blitz, Leo; Davis, Timothy;</TD>
+            <TD>2.064180713778794</TD>
+            <TD>0.08217871404172</TD>
+            <TD>0.69895315</TD>
+            <TD>uid://A001/X13a/Xcc</TD>
+            <TD>uid://A001/X13a/Xcd</TD>
+            <TD>uid://A002/Xa45c3f/X3bc</TD>
+            <TD>Weighing Supermassive Black Holes with ALMA</TD>
+            <TD>S</TD>
+            <TD>AMPLI FLUX WVR</TD>
+            <TD>18.561819182469264</TD>
+            <TD>1.1531750799156002</TD>
+            <TD>Y</TD>
+            <TD>0</TD>
+            <TD>Surveys of galaxies, Galactic centres/nuclei</TD>
+            <TD>Galaxy evolution</TD>
+            <TD>2013.1.00493.S</TD>
+          </TR>
+          <TR>
+            <TD>2013.1.00745.S</TD>
+            <TD>3c273</TD>
+            <TD>187.27791666666667</TD>
+            <TD>2.052388333333333</TD>
+            <TD>289.95092990916373</TD>
+            <TD>64.35992836092764</TD>
+            <TD>7</TD>
+            <TD>0.67932398780324432</TD>
+            <TD>7812.5</TD>
+            <TD>12m</TD>
+            <TD />
+            <TD>151.2</TD>
+            <TD>2016-08-28</TD>
+            <TD>[348.24..350.12GHz,15625.00kHz, XX YY] U [349.85..351.73GHz,15625.00kHz, XX YY] U [360.18..362.06GHz,7812.50kHz, XX YY] U [361.79..363.67GHz,7812.50kHz, XX YY]</TD>
+            <TD>6485.716568482303</TD>
+            <TD>XX YY</TD>
+            <TD>2015-05-02 01:58:31</TD>
+            <TD>Nagao, Tohru</TD>
+            <TD>BR1202-0_a_07_TE</TD>
+            <TD>Hatsukade, Bunyo; Matsuda, Yuichi; Karim, Alexander; Cresci, Giovanni; Carniani, Stefano; Marconi, Alessandro; Troncoso, Paulina; Bothwell, Matt; De Breuck, Carlos; Mannucci, Filippo; Matsuoka, Kenta; Maiolino, Roberto; Caselli, Paola;</TD>
+            <TD>3.387771142872418</TD>
+            <TD>0.14724266284498064</TD>
+            <TD>0.8746595</TD>
+            <TD>uid://A001/X122/X3a9</TD>
+            <TD>uid://A001/X122/X3aa</TD>
+            <TD>uid://A002/X9fa4e2/X1347</TD>
+            <TD>Assessing the nature of the ISM at high-z through multiple detections of fine-structure lines</TD>
+            <TD>S</TD>
+            <TD>AMPLI FLUX WVR</TD>
+            <TD>17.698890331057882</TD>
+            <TD>3.403810925366117</TD>
+            <TD>Y</TD>
+            <TD>1</TD>
+            <TD>Sub-mm Galaxies (SMG), High-z Active Galactic Nuclei (AGN)</TD>
+            <TD>Galaxy evolution</TD>
+            <TD>2013.1.00745.S</TD>
+          </TR>
+          <TR>
+            <TD>2012.1.00611.S</TD>
+            <TD>3c273</TD>
+            <TD>187.27791666666667</TD>
+            <TD>2.052388333333333</TD>
+            <TD>289.95092990916373</TD>
+            <TD>64.35992836092764</TD>
+            <TD>7</TD>
+            <TD>0.15099267965767685</TD>
+            <TD>976.5625</TD>
+            <TD>12m</TD>
+            <TD />
+            <TD>181.44</TD>
+            <TD>2016-08-31</TD>
+            <TD>[326.97..328.97GHz,31250.00kHz, XX YY] U [328.93..330.80GHz,976.56kHz, XX YY] U [339.03..340.91GHz,976.56kHz, XX YY] U [340.87..342.87GHz,31250.00kHz, XX YY]</TD>
+            <TD>885.1800994913507</TD>
+            <TD>XX YY</TD>
+            <TD>2015-07-16 21:28:23</TD>
+            <TD>Evans, Aaron</TD>
+            <TD>PG1244_330_12m_C32-6</TD>
+            <TD>Barthel, Peter; Frayer, David; Aalto, Susanne; Privon, George; Surace, Jason; Kimball, Amy; Lacy, Mark; Sakamoto, Kazushi; Kim, Dong-Chan;</TD>
+            <TD>2.6212656705228197</TD>
+            <TD>0.11577332472053817</TD>
+            <TD>0.6572753</TD>
+            <TD>uid://A002/X684eb5/X168</TD>
+            <TD>uid://A002/X684eb5/X169</TD>
+            <TD>uid://A002/Xa5c7d4/X3d0</TD>
+            <TD>Dense, Warm Molecular Gas and Star Formation in CO Luminous QSO Hosts</TD>
+            <TD>S</TD>
+            <TD>AMPLI FLUX WVR</TD>
+            <TD>18.810514741504033</TD>
+            <TD>0.8404968719503926</TD>
+            <TD>Y</TD>
+            <TD>0</TD>
+            <TD>Starbursts, star formation, Active Galactic Nuclei (AGN)/Quasars (QSO)</TD>
+            <TD>Active galaxies</TD>
+            <TD>2012.1.00611.S</TD>
+          </TR>
+          <TR>
+            <TD>2012.1.00377.S</TD>
+            <TD>3c273</TD>
+            <TD>187.27791666666667</TD>
+            <TD>2.052388333333333</TD>
+            <TD>289.95092990916373</TD>
+            <TD>64.35992836092764</TD>
+            <TD>7</TD>
+            <TD>0.14952610323601898</TD>
+            <TD>976.5625</TD>
+            <TD>12m</TD>
+            <TD />
+            <TD>151.2</TD>
+            <TD>2016-09-30</TD>
+            <TD>[348.16..350.04GHz,976.56kHz, XX YY] U [349.85..351.73GHz,976.56kHz, XX YY] U [360.41..362.29GHz,976.56kHz, XX YY] U [362.10..363.98GHz,976.56kHz, XX YY]</TD>
+            <TD>822.2141958515674</TD>
+            <TD>XX YY</TD>
+            <TD>2015-07-24 21:34:37</TD>
+            <TD>Sakamoto, Kazushi</TD>
+            <TD>NGC4418__c_07_12</TD>
+            <TD>Aalto, Susanne; Evans, Aaron; Costagliola, Francesco;</TD>
+            <TD>2.9779727962620672</TD>
+            <TD>0.1301497933687219</TD>
+            <TD>0.877951</TD>
+            <TD>uid://A002/X5d7935/X13d</TD>
+            <TD>uid://A002/X5d7935/X13e</TD>
+            <TD>uid://A002/Xa6a120/X4fa</TD>
+            <TD>Fire and Wind in Compton-thick Monster: The Case of NGC 4418</TD>
+            <TD>S</TD>
+            <TD>AMPLI FLUX WVR</TD>
+            <TD>17.693134295852204</TD>
+            <TD>0.8089955048230224</TD>
+            <TD>Y</TD>
+            <TD>0</TD>
+            <TD>Active Galactic Nuclei (AGN)/Quasars (QSO), Outflows, jets, feedback</TD>
+            <TD>Active galaxies</TD>
+            <TD>2012.1.00377.S</TD>
+          </TR>
+          <TR>
+            <TD>2012.1.00377.S</TD>
+            <TD>3c273</TD>
+            <TD>187.27791666666667</TD>
+            <TD>2.052388333333333</TD>
+            <TD>289.95092990916373</TD>
+            <TD>64.35992836092764</TD>
+            <TD>7</TD>
+            <TD>0.14438882595208888</TD>
+            <TD>976.5625</TD>
+            <TD>12m</TD>
+            <TD />
+            <TD>151.2</TD>
+            <TD>2016-10-13</TD>
+            <TD>[344.94..346.81GHz,976.56kHz, XX YY] U [346.61..348.49GHz,976.56kHz, XX YY] U [357.07..358.95GHz,976.56kHz, XX YY] U [358.75..360.62GHz,976.56kHz, XX YY]</TD>
+            <TD>829.881882190431</TD>
+            <TD>XX YY</TD>
+            <TD>2015-07-24 20:53:29</TD>
+            <TD>Sakamoto, Kazushi</TD>
+            <TD>NGC4418__a_07_12</TD>
+            <TD>Aalto, Susanne; Evans, Aaron; Costagliola, Francesco;</TD>
+            <TD>3.2919255737407913</TD>
+            <TD>0.14442570893021286</TD>
+            <TD>0.9299691</TD>
+            <TD>uid://A002/X5d7935/X137</TD>
+            <TD>uid://A002/X5d7935/X138</TD>
+            <TD>uid://A002/Xa6a120/X289</TD>
+            <TD>Fire and Wind in Compton-thick Monster: The Case of NGC 4418</TD>
+            <TD>S</TD>
+            <TD>AMPLI FLUX WVR</TD>
+            <TD>17.858134371035145</TD>
+            <TD>0.7812007978134456</TD>
+            <TD>Y</TD>
+            <TD>0</TD>
+            <TD>Active Galactic Nuclei (AGN)/Quasars (QSO), Outflows, jets, feedback</TD>
+            <TD>Active galaxies</TD>
+            <TD>2012.1.00377.S</TD>
+          </TR>
+          <TR>
+            <TD>2012.1.00377.S</TD>
+            <TD>3c273</TD>
+            <TD>187.27791666666667</TD>
+            <TD>2.052388333333333</TD>
+            <TD>289.95092990916373</TD>
+            <TD>64.35992836092764</TD>
+            <TD>7</TD>
+            <TD>0.16546274154403523</TD>
+            <TD>976.5625</TD>
+            <TD>12m</TD>
+            <TD />
+            <TD>151.2</TD>
+            <TD>2016-10-24</TD>
+            <TD>[341.73..343.60GHz,976.56kHz, XX YY] U [343.37..345.25GHz,976.56kHz, XX YY] U [353.75..355.62GHz,976.56kHz, XX YY] U [355.41..357.29GHz,976.56kHz, XX YY]</TD>
+            <TD>837.6788095693198</TD>
+            <TD>XX YY</TD>
+            <TD>2015-07-24 22:14:55</TD>
+            <TD>Sakamoto, Kazushi</TD>
+            <TD>NGC4418__b_07_12</TD>
+            <TD>Aalto, Susanne; Evans, Aaron; Costagliola, Francesco;</TD>
+            <TD>2.91816722106823</TD>
+            <TD>0.11978893454498789</TD>
+            <TD>0.7896777</TD>
+            <TD>uid://A002/X5d7935/X13a</TD>
+            <TD>uid://A002/X5d7935/X13b</TD>
+            <TD>uid://A002/Xa6a120/X70c</TD>
+            <TD>Fire and Wind in Compton-thick Monster: The Case of NGC 4418</TD>
+            <TD>S</TD>
+            <TD>AMPLI FLUX WVR</TD>
+            <TD>18.025361136350686</TD>
+            <TD>0.895219036862944</TD>
+            <TD>Y</TD>
+            <TD>0</TD>
+            <TD>Active Galactic Nuclei (AGN)/Quasars (QSO), Outflows, jets, feedback</TD>
+            <TD>Active galaxies</TD>
+            <TD>2012.1.00377.S</TD>
+          </TR>
+          <TR>
+            <TD>2012.1.00377.S</TD>
+            <TD>3c273</TD>
+            <TD>187.27791666666667</TD>
+            <TD>2.052388333333333</TD>
+            <TD>289.95092990916373</TD>
+            <TD>64.35992836092764</TD>
+            <TD>7</TD>
+            <TD>0.14964657715784666</TD>
+            <TD>976.5625</TD>
+            <TD>12m</TD>
+            <TD />
+            <TD>151.2</TD>
+            <TD>2016-11-20</TD>
+            <TD>[338.52..340.39GHz,976.56kHz, XX YY] U [340.15..342.02GHz,976.56kHz, XX YY] U [350.44..352.32GHz,976.56kHz, XX YY] U [352.07..353.95GHz,976.56kHz, XX YY]</TD>
+            <TD>845.5758674735822</TD>
+            <TD>XX YY</TD>
+            <TD>2015-06-29 23:20:31</TD>
+            <TD>Sakamoto, Kazushi</TD>
+            <TD>NGC4418__d_07_12</TD>
+            <TD>Aalto, Susanne; Evans, Aaron; Costagliola, Francesco;</TD>
+            <TD>3.7622689610658453</TD>
+            <TD>0.1543258045312754</TD>
+            <TD>1.5412053</TD>
+            <TD>uid://A002/X5d7935/X140</TD>
+            <TD>uid://A002/X5d7935/X141</TD>
+            <TD>uid://A002/Xa4b3e9/X59c</TD>
+            <TD>Fire and Wind in Compton-thick Monster: The Case of NGC 4418</TD>
+            <TD>S</TD>
+            <TD>AMPLI FLUX WVR</TD>
+            <TD>18.19585146550142</TD>
+            <TD>0.808892790007088</TD>
+            <TD>Y</TD>
+            <TD>0</TD>
+            <TD>Active Galactic Nuclei (AGN)/Quasars (QSO), Outflows, jets, feedback</TD>
+            <TD>Active galaxies</TD>
+            <TD>2012.1.00377.S</TD>
+          </TR>
+          <TR>
+            <TD>2012.1.00139.S</TD>
+            <TD>3C273</TD>
+            <TD>187.2779155</TD>
+            <TD>2.0523883999999994</TD>
+            <TD>289.9509272383897</TD>
+            <TD>64.35992819301111</TD>
+            <TD>7</TD>
+            <TD>0.30682054022013583</TD>
+            <TD>31250.0</TD>
+            <TD>12m</TD>
+            <TD />
+            <TD>10.08</TD>
+            <TD>2017-01-25</TD>
+            <TD>[340.99..342.99GHz,31250.00kHz, XX YY] U [342.93..344.93GHz,31250.00kHz, XX YY] U [352.99..354.99GHz,31250.00kHz, XX YY] U [354.99..356.99GHz,31250.00kHz, XX YY]</TD>
+            <TD>26846.701763000452</TD>
+            <TD>XX YY</TD>
+            <TD>2013-06-01 00:48:29</TD>
+            <TD>Doi, Akihiro</TD>
+            <TD>Multi-source-B7b</TD>
+            <TD>Akiyama, Kazunori; Sawada-Satoh, Satoko; Kawaguchi, Toshihiro; Ozaki, Shinobu; Kohno, Kotaro; Hada, Kazuhiro; Terashima, Yuichi; Nakanishi, Kouichiro;</TD>
+            <TD>16.99716559437809</TD>
+            <TD>0.6734305544541809</TD>
+            <TD>0.7998315</TD>
+            <TD>uid://A002/X5a9a13/Xf4</TD>
+            <TD>uid://A002/X5a9a13/Xf5</TD>
+            <TD>uid://A002/X652932/X16a</TD>
+            <TD>Nuclear Continuum Spectra of nearby low-luminosity AGNs</TD>
+            <TD>S</TD>
+            <TD>AMPLI FLUX WVR</TD>
+            <TD>18.05185653673843</TD>
+            <TD>2.1051443063753434</TD>
+            <TD>Y</TD>
+            <TD>0</TD>
+            <TD>Active Galactic Nuclei (AGN)/Quasars (QSO), Galactic centres/nuclei</TD>
+            <TD>Active galaxies</TD>
+            <TD>2012.1.00139.S</TD>
+          </TR>
+          <TR>
+            <TD>2012.1.00139.S</TD>
+            <TD>3C273</TD>
+            <TD>187.2779155</TD>
+            <TD>2.0523883999999994</TD>
+            <TD>289.9509272383897</TD>
+            <TD>64.35992819301111</TD>
+            <TD>7</TD>
+            <TD>0.37612918840650528</TD>
+            <TD>31250.0</TD>
+            <TD>12m</TD>
+            <TD />
+            <TD>10.08</TD>
+            <TD>2017-01-29</TD>
+            <TD>[291.99..293.99GHz,31250.00kHz, XX YY] U [293.93..295.93GHz,31250.00kHz, XX YY] U [303.99..305.99GHz,31250.00kHz, XX YY] U [305.99..307.99GHz,31250.00kHz, XX YY]</TD>
+            <TD>31232.19917801618</TD>
+            <TD>XX YY</TD>
+            <TD>2013-06-01 01:27:15</TD>
+            <TD>Doi, Akihiro</TD>
+            <TD>Multi-source-B7a</TD>
+            <TD>Akiyama, Kazunori; Sawada-Satoh, Satoko; Kawaguchi, Toshihiro; Ozaki, Shinobu; Kohno, Kotaro; Hada, Kazuhiro; Terashima, Yuichi; Nakanishi, Kouichiro;</TD>
+            <TD>14.574803983482637</TD>
+            <TD>0.5258744907858228</TD>
+            <TD>0.7080883</TD>
+            <TD>uid://A002/X5a9a13/Xf0</TD>
+            <TD>uid://A002/X5a9a13/Xf1</TD>
+            <TD>uid://A002/X652932/X45e</TD>
+            <TD>Nuclear Continuum Spectra of nearby low-luminosity AGNs</TD>
+            <TD>S</TD>
+            <TD>AMPLI FLUX WVR</TD>
+            <TD>21.00037975686727</TD>
+            <TD>2.5806819154527036</TD>
+            <TD>Y</TD>
+            <TD>0</TD>
+            <TD>Active Galactic Nuclei (AGN)/Quasars (QSO), Galactic centres/nuclei</TD>
+            <TD>Active galaxies</TD>
+            <TD>2012.1.00139.S</TD>
+          </TR>
+        </TABLEDATA>
+      </DATA>
+    </TABLE>
+    <INFO name="QUERY_STATUS" value="OK" />
+  </RESOURCE>
+</VOTABLE>
